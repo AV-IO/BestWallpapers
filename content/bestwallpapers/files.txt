@@ -1,0 +1,6 @@
+./bestwallpapers/images/
+{complete with list of wallpapers}
+./flag.txt
+./secret.txt
+./66-6C-61-67.png
+./admin.txt
