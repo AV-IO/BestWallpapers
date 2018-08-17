@@ -1,16 +1,22 @@
 package main
 
 import (
+	"fmt"
+	"golang.org/x/crypto/sha3"
+	"html/template"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
 	"time"
-	"golang.org/x/crypto/sha3"
-	"io"
-	"html/template"
-	"fmt"
 )
+
+type imagePreviewData struct {
+	Success bool
+	FileUID string
+	FileExt string
+}
 
 func getTimeHash() []byte {
 	buf := []byte(time.Now().String())
@@ -60,36 +66,48 @@ func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func imagePreview(w http.ResponseWriter, r *http.Request, imgCacheName string) {
-	var insert string
-
-	if imgCacheName == "0" { // file does not exist
-		insert = "<p>file does not exist</p>"
-	} else if imgCacheName == "1" { // bad file extension
-		insert = "<p>file has wrong extension</p>"
+	data := imagePreviewData{false, "", ""}
+	if imgCacheName == "0" { // insert does not exist
+		data.FileUID = "file does not exist"
+	} else if imgCacheName == "1" { // bad insert extension
+		data.FileUID = "file has wrong extension"
 	} else { // image successfully found
-		insert = "<img src=" + imgCacheName + ">" //todo: set width/height
+		data.Success = true
+		data.FileUID = imgCacheName[:strings.LastIndex(imgCacheName, ".")]
+		data.FileExt = imgCacheName[strings.LastIndex(imgCacheName, "."):]
 	}
 
-	fBytes, _ := ioutil.ReadFile("./imagePreview.html") //todo: create imagePreview.html
-	fString := string(fBytes)
-	strings.Replace(fString, "", insert, 1)
+	//t := template.Must(template.ParseFiles("./imagePreview.html"))
+	t, _ := template.ParseFiles("./imagePreview.html")
 
 	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(fString))
+	//w.Header().Set("Content-Type", "text/html")
+	if err := t.Execute(w, data); err != nil {
+		fmt.Println(err)
+		return
+	}
+}
+
+func imgprevwrap(w http.ResponseWriter, r *http.Request) {
+	imagePreview(w, r, "test.png")
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) { // todo: check https://zupzup.org/go-http-file-upload-download/
-	if r.Method == "GET" { //todo: wtf is this doing?
+	if r.Method == "GET" {
 		buf := []byte(time.Now().String())
 		h := make([]byte, 64)
 		sha3.ShakeSum128(h, buf)
 
 		t, _ := template.ParseFiles("upload.gtpl")
 		t.Execute(w, h)
-	} else { //todo: test if there is a better method
-		r.ParseMultipartForm(32 << 20)
-		in, handler, _ := r.FormFile("uploadfile")
+	} else {
+		if err := r.ParseMultipartForm(32 << 20); err != nil {
+			return //file too big
+		}
+		in, handler, err := r.FormFile("uploadfile")
+		if err != nil {
+			return
+		}
 		defer in.Close()
 		fmt.Fprintf(w, "%v", handler.Header)
 		out, _ := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
@@ -104,9 +122,9 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 
 	if strings.HasSuffix(path, ".png") || strings.HasSuffix(path, ".jpg") {
 		extension := path[strings.LastIndex(path, "."):]
-		imgCacheName := "/image_cache/" + string(getTimeHash()) + extension
+		imgCacheName := string(getTimeHash()) + extension
 		fileCreated := false
-		if strings.HasPrefix(path,"127.0.0.1") {
+		if strings.HasPrefix(path, "127.0.0.1") {
 			path = "./images" + path[9:]
 			if _, err := os.Stat(path); err == nil {
 				in, _ := os.Open(path)
@@ -139,6 +157,8 @@ func server() {
 	http.HandleFunc("/upload", uploadHandler)
 	http.HandleFunc("/getImage", getImageHandler)
 	http.HandleFunc("/image_cache/", imageCacheHandler)
+	//http.HandleFunc("/imagePreview", show404)
+	http.HandleFunc("/imagePreview", imgprevwrap)
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		panic(err)
 	}
