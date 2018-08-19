@@ -1,11 +1,13 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"golang.org/x/crypto/sha3"
 	"html/template"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"os"
 	"strings"
@@ -14,6 +16,7 @@ import (
 
 type imagePreviewData struct {
 	Success bool
+	IsAdmin bool
 	FileUID string
 	FileExt string
 }
@@ -46,31 +49,59 @@ func httpPathHandler(w http.ResponseWriter, r *http.Request) {
 	if _, err := os.Stat(fName); err == nil {
 		fReader, _ := os.Open(fName)
 		defer fReader.Close()
+		if _, err := r.Cookie("user"); err == http.ErrNoCookie {
+			t := getTimeHash()
+			binary.BigEndian.PutUint64(t[16:], binary.BigEndian.Uint64(t[16:])+rand.Uint64()) // adding random 64 bits to end of hash
+			c := http.Cookie{
+				Name:     "user",
+				Value:    string(t),
+				Expires:  time.Now().Add(time.Hour),
+				Secure:   true,
+				HttpOnly: true,
+			}
+			// todo put cookie in cookiejar
+			http.SetCookie(w, &c) //todo reference cookie within cookiejar
+		}
 		http.ServeContent(w, r, fName, time.Time{}, fReader)
 	} else { // show 404 page
 		show404(w, r)
 	}
 }
 
-func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
-	fName := "." + r.URL.Path
+func imageCacheClearer(fName string) {
+	time.Sleep(5 * time.Second)
+	os.Remove(fName)
+}
 
-	if _, err := os.Stat(fName); err == nil {
+func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
+	pathArr := strings.Split(r.URL.Path, "/")[1:]
+	fName := "./"
+	if len(pathArr) < 3 {
+		fName = fName + pathArr[1]
+	} else {
+		fName = fName + pathArr[2]
+	}
+
+	if _, err := os.Stat(fName); err == nil { // if file exists
 		fReader, _ := os.Open(fName)
 		defer fReader.Close()
-		defer os.Remove(fName)
 		http.ServeContent(w, r, fName, time.Time{}, fReader)
-	} else { // show 404 page
+		if len(pathArr) < 3 || pathArr[1] == "1" {
+			go imageCacheClearer(fName)
+		}
+	} else {
 		show404(w, r)
 	}
 }
 
 func imagePreview(w http.ResponseWriter, r *http.Request, imgCacheName string) {
-	data := imagePreviewData{false, "", ""}
+	data := imagePreviewData{false, false, "", ""}
 	if imgCacheName == "0" { // insert does not exist
 		data.FileUID = "file does not exist"
 	} else if imgCacheName == "1" { // bad insert extension
 		data.FileUID = "file has wrong extension"
+	} else if imgCacheName == "2" { // too large of file
+		data.FileUID = "file size is too large"
 	} else { // image successfully found
 		data.Success = true
 		data.FileUID = imgCacheName[:strings.LastIndex(imgCacheName, ".")]
@@ -88,31 +119,32 @@ func imagePreview(w http.ResponseWriter, r *http.Request, imgCacheName string) {
 	}
 }
 
-func imgprevwrap(w http.ResponseWriter, r *http.Request) {
-	imagePreview(w, r, "test.png")
-}
-
-func uploadHandler(w http.ResponseWriter, r *http.Request) { // todo: check https://zupzup.org/go-http-file-upload-download/
+func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		buf := []byte(time.Now().String())
-		h := make([]byte, 64)
-		sha3.ShakeSum128(h, buf)
-
-		t, _ := template.ParseFiles("upload.gtpl")
-		t.Execute(w, h)
+		fReader, _ := os.Open("./upload.html")
+		defer fReader.Close()
+		http.ServeContent(w, r, "./upload.html", time.Time{}, fReader)
 	} else {
 		if err := r.ParseMultipartForm(32 << 20); err != nil {
-			return //file too big
-		}
-		in, handler, err := r.FormFile("uploadfile")
-		if err != nil {
+			imagePreview(w, r, "2")
 			return
 		}
-		defer in.Close()
-		fmt.Fprintf(w, "%v", handler.Header)
-		out, _ := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
-		defer out.Close()
+		//todo handle no file uploaded
+		in, _, err := r.FormFile("fileUpload")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		//defer in.Close()
+		fName := string(getTimeHash())
+		//fmt.Fprintf(w, "%v", handler.Header)
+		//out, _ := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+		out, _ := os.Create(fName)
+		//defer out.Close()
 		io.Copy(out, in)
+		in.Close()
+		out.Close()
+		imagePreview(w, r, fName)
 	}
 }
 
@@ -128,8 +160,8 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 			path = "./images" + path[9:]
 			if _, err := os.Stat(path); err == nil {
 				in, _ := os.Open(path)
-				defer in.Close()
 				out, _ := os.Create("." + imgCacheName)
+				defer in.Close()
 				defer out.Close()
 				io.Copy(out, in)
 				fileCreated = true
@@ -157,8 +189,7 @@ func server() {
 	http.HandleFunc("/upload", uploadHandler)
 	http.HandleFunc("/getImage", getImageHandler)
 	http.HandleFunc("/image_cache/", imageCacheHandler)
-	//http.HandleFunc("/imagePreview", show404)
-	http.HandleFunc("/imagePreview", imgprevwrap)
+	http.HandleFunc("/imagePreview", show404)
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		panic(err)
 	}
