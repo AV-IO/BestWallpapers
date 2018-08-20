@@ -49,15 +49,16 @@
 					<div id="main">
 						<div class="inner">
 							<h1>Image Preview</h1>
-							{{if .success}}
-								<span class="image main"><img src="/image_cache/{{.fileUID}}{{.fileExt}}"></span> <!-- set static image size -->
+							{{if .Success}}
+								<span class="image main"><img src="/image_cache/{{.FileUID}}{{.FileExt}}"></span>
+								<!-- set static image size -->
 								<p>Due to an increased rate of submitting images, we have a staff member review all images before they will be seen on our main page. Thank you for your patience.</p>
 								<ul class="actions">
 									<li><a class="button" href="/">Submit Image</a></li>
 									<li><a class="button" href="/">Cancel</a></li>
 								</ul>
 							{{else}}
-								<p>{{.fileUID}}</p>
+								<p>{{.FileUID}}</p>
 							{{end}}
 						</div>
 					</div>
