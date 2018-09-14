@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4771c170-fbb3-4e75-b19f-841587a727e6" name="Default Changelist" comment="more additions to webserver">
-      <change afterPath="$PROJECT_DIR$/content/bestwallpapers/getImage.html" afterDir="false" />
+    <list default="true" id="4771c170-fbb3-4e75-b19f-841587a727e6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/webserver.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/webserver.go" afterDir="false" />
     </list>
@@ -72,45 +71,52 @@
     <session id="-109998689">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="11" />
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.7" value="3" />
-          <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.open.time.7" value="5" />
+          <entry key="project.open.time.8" value="3" />
+          <entry key="project.opened" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="2934" />
+          <entry key="go" value="3896" />
           <entry key="html" value="1309" />
-          <entry key="txt" value="147" />
+          <entry key="iedis" value="12" />
+          <entry key="txt" value="205" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="2934" />
+          <entry key="Go" value="3896" />
           <entry key="HTML" value="1309" />
-          <entry key="PLAIN_TEXT" value="147" />
+          <entry key="Iedis File" value="12" />
+          <entry key="PLAIN_TEXT" value="205" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="1:6379-explorer" value="2" />
-          <entry key="go" value="6" />
-          <entry key="html" value="8" />
+          <entry key="1:6379-explorer" value="6" />
+          <entry key="1:6379-terminal" value="3" />
+          <entry key="go" value="10" />
+          <entry key="html" value="9" />
           <entry key="jpg" value="1" />
           <entry key="js" value="1" />
-          <entry key="s" value="1" />
+          <entry key="s" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="6" />
-          <entry key="HTML" value="8" />
-          <entry key="Iedis" value="2" />
+          <entry key="Go" value="10" />
+          <entry key="HTML" value="9" />
+          <entry key="Iedis" value="9" />
           <entry key="Image" value="1" />
           <entry key="JavaScript" value="1" />
-          <entry key="x86 Plan9 Assembly" value="1" />
+          <entry key="x86 Plan9 Assembly" value="3" />
         </counts>
       </usages-collector>
     </session>
@@ -158,13 +164,21 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/webserver.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="822">
-              <caret line="107" column="1" selection-start-line="107" selection-start-column="1" selection-end-line="107" selection-end-column="1" />
+            <state relative-caret-position="562">
+              <caret line="94" column="45" selection-start-line="94" selection-start-column="45" selection-end-line="94" selection-end-column="45" />
               <folding>
                 <element signature="n#!!block;n#getTimeHash#0" />
                 <element signature="n#!!block;n#show404#0" />
-                <element signature="n#!!block;n#httpPathHandler#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/content/bestwallpapers/getImage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1120">
+              <caret line="70" column="19" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -172,7 +186,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/bestwallpapers/elements.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4624">
+            <state relative-caret-position="1085">
               <caret line="289" column="38" selection-start-line="289" selection-start-column="38" selection-end-line="289" selection-end-column="38" />
             </state>
           </provider>
@@ -181,8 +195,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/bestwallpapers/imagePreview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="976">
-              <caret line="61" column="32" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+            <state relative-caret-position="944">
+              <caret line="59" column="36" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -190,8 +204,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/bestwallpapers/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3168">
-              <caret line="198" selection-start-line="198" selection-end-line="198" />
+            <state relative-caret-position="784">
+              <caret line="49" column="43" selection-start-line="49" selection-start-column="43" selection-end-line="49" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -212,6 +226,7 @@
       <list>
         <option value="Go Application" />
         <option value="HTML File" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
@@ -220,6 +235,10 @@
       <find>.open</find>
       <find>{}</find>
       <find>cookie</find>
+      <find>r.cookie(</find>
+      <find>r.cookie</find>
+      <find>getTimeHash</find>
+      <find>secure:</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/Cellar/go/1.10.2/libexec" />
@@ -245,6 +264,8 @@
         <option value="$PROJECT_DIR$/content/admin.txt" />
         <option value="$PROJECT_DIR$/content/bestwallpapers/files.txt" />
         <option value="$PROJECT_DIR$/content/bestwallpapers/getImage.html" />
+        <option value="$PROJECT_DIR$/testing/Main_test.go" />
+        <option value="$PROJECT_DIR$/testing/webserver_test.go" />
         <option value="$PROJECT_DIR$/server/webserver.go" />
       </list>
     </option>
@@ -255,10 +276,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1720" />
     <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="1027" />
+    <option name="width" value="1720" />
+    <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -295,6 +317,11 @@
               <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="bestwallpapers" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
+              <item name="testing" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -318,7 +345,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="GO_FMT" value="true" />
     <property name="SearchEverywhereHistoryKey" value="reformat&#9;ACTION&#9;ReformatCode&#10;for &lt;&gt;&#9;null&#9;null" />
@@ -383,27 +410,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
+    <frame x="1720" y="23" width="1720" height="1417" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5277476" visible="true" weight="0.17643468" />
-      <window_info id="Structure" order="1" sideWeight="0.47225246" side_tool="true" visible="true" weight="0.17643468" />
-      <window_info id="Favorites" order="2" sideWeight="0.46867925" side_tool="true" weight="0.16805722" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5210843" visible="true" weight="0.1603099" />
+      <window_info id="Structure" order="1" sideWeight="0.47891566" side_tool="true" visible="true" weight="0.1603099" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32981133" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.15080214" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4993895" weight="0.4053476" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.15018868" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49844512" weight="0.26490566" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="6" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32981133" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49940404" weight="0.23226812" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5005959" side_tool="true" weight="0.405283" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.2483019" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49940404" weight="0.23169811" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50155485" side_tool="true" weight="0.1109434" />
+      <window_info anchor="bottom" id="Iedis Console" order="10" weight="0.09584906" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" sideWeight="0.49886793" weight="0.329559" />
-      <window_info anchor="right" id="TODO" order="4" sideWeight="0.5038085" side_tool="true" visible="true" weight="0.22771673" />
-      <window_info active="true" anchor="right" id="Redis Servers" order="5" sideWeight="0.4961915" visible="true" weight="0.22771673" />
+      <window_info anchor="right" id="Redis Servers" order="4" sideWeight="0.19779287" visible="true" weight="0.18028846" />
+      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.50100404" side_tool="true" visible="true" weight="0.19904648" />
+      <window_info anchor="right" id="TODO" order="6" sideWeight="0.498996" visible="true" weight="0.19904648" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -439,7 +467,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="starting on editing html files, additions to webserver." />
     <MESSAGE value="more additions to webserver" />
     <option name="LAST_COMMIT_MESSAGE" value="more additions to webserver" />
@@ -448,9 +478,24 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/server/webserver.go</url>
+          <line>230</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/server/webserver.go</url>
+          <line>109</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="GoApplicationRunConfiguration">
-        <watch expression="*(*&quot;string&quot;)(842351722808)" />
+        <watch expression="*(*&quot;net/http.Request&quot;)(842354205696)" />
       </configuration>
     </watches-manager>
   </component>
@@ -463,6 +508,21 @@
       </expression>
     </expressions>
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>c.Value</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>hex.EncodeToString(t)</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>string(t)</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>err.Err</expression-string>
         <language-id>go</language-id>
@@ -498,7 +558,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/net/http/server.go" />
     <entry file="file://$PROJECT_DIR$/content/bestwallpapers/images/pic01.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -515,8 +574,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/runtime/panic.go" />
-    <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/runtime/asm_amd64.s" />
     <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/text/template/exec.go" />
     <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/html/template/template.go" />
     <entry file="file://$PROJECT_DIR$/content/bestwallpapers/assets/js/main.js">
@@ -546,46 +603,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/testing/webserver_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="redis://IedisURI?type=Terminal&amp;label=127.0.0.1&amp;host=127.0.0.1&amp;port=6379&amp;password=&amp;timestamp=1534813835824&amp;nodeHost=127.0.0.1&amp;nodePort=6379" />
+    <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/runtime/panic.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="543" selection-start-line="543" selection-end-line="543" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="redis://IedisURI?type=Explorer&amp;label=127.0.0.1&amp;host=127.0.0.1&amp;port=6379&amp;password=&amp;timestamp=1534813835824&amp;nodeHost=127.0.0.1&amp;nodePort=6379" />
     <entry file="file://$PROJECT_DIR$/content/bestwallpapers/getImage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="995">
-          <caret line="70" column="19" lean-forward="true" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="redis://IedisURI?type=Explorer&amp;label=127.0.0.1&amp;host=127.0.0.1&amp;port=6379&amp;password=&amp;timestamp=1534813835824&amp;nodeHost=127.0.0.1&amp;nodePort=6379">
-      <provider selected="true" editor-type-id="r" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/webserver.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="822">
-          <caret line="107" column="1" selection-start-line="107" selection-start-column="1" selection-end-line="107" selection-end-column="1" />
-          <folding>
-            <element signature="n#!!block;n#getTimeHash#0" />
-            <element signature="n#!!block;n#show404#0" />
-            <element signature="n#!!block;n#httpPathHandler#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/elements.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4624">
-          <caret line="289" column="38" selection-start-line="289" selection-start-column="38" selection-end-line="289" selection-end-column="38" />
+        <state relative-caret-position="1120">
+          <caret line="70" column="19" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/content/bestwallpapers/imagePreview.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="976">
-          <caret line="61" column="32" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+        <state relative-caret-position="944">
+          <caret line="59" column="36" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/content/bestwallpapers/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3168">
-          <caret line="198" selection-start-line="198" selection-end-line="198" />
+        <state relative-caret-position="784">
+          <caret line="49" column="43" selection-start-line="49" selection-start-column="43" selection-end-line="49" selection-end-column="43" />
         </state>
       </provider>
     </entry>
@@ -593,6 +644,38 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/elements.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1085">
+          <caret line="289" column="38" selection-start-line="289" selection-start-column="38" selection-end-line="289" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/net/http/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="1947" selection-start-line="1947" selection-end-line="1947" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/go/1.10.2/libexec/src/runtime/asm_amd64.s">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="2360" selection-start-line="2360" selection-end-line="2360" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/webserver.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="94" column="45" selection-start-line="94" selection-start-column="45" selection-end-line="94" selection-end-column="45" />
+          <folding>
+            <element signature="n#!!block;n#getTimeHash#0" />
+            <element signature="n#!!block;n#show404#0" />
+          </folding>
         </state>
       </provider>
     </entry>

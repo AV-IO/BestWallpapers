@@ -1,7 +1,8 @@
-package Main
+package main
 
 import (
 	"encoding/binary"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
@@ -58,18 +59,18 @@ func setCookieDetail(cd cookieDetail) {
 	}
 }
 
-func getCookieDetail(cName string) cookieDetail {
+func getCookieDetail(cName string) (cookieDetail, error) {
 	j, err := rClient.Get(cName).Result()
 	if err == nil {
-		panic(err)
+		return cookieDetail{}, http.ErrNoCookie
 	}
 	var newCD cookieDetail
 	json.Unmarshal([]byte(j), &newCD)
-	return newCD
+	return newCD, nil
 }
 
 func appendPathToCookie(cName string, newPath string) {
-	cd := getCookieDetail(cName)
+	cd, _ := getCookieDetail(cName)
 	setCookieDetail(cookieDetail{
 		Cookie:  cd.Cookie,
 		IsAdmin: cd.IsAdmin,
@@ -82,13 +83,33 @@ func createCookie(isAdmin bool) (c http.Cookie) {
 	binary.BigEndian.PutUint64(t[16:], binary.BigEndian.Uint64(t[16:])+rand.Uint64()) // adding random 64 bits to end of hash
 	c = http.Cookie{
 		Name:     "user",
-		Value:    string(t),
+		Value:    hex.EncodeToString(t),
 		Expires:  time.Now().Add(time.Hour),
-		Secure:   true,
+		Secure:   false, //todo add secure back when adding https
 		HttpOnly: true,
 	}
 	setCookieDetail(cookieDetail{Cookie: c, IsAdmin: isAdmin})
 	return
+}
+
+func checkCookie(name string, w *http.ResponseWriter, r *http.Request) (cookieDetail, error) {
+	cookieSlice := r.Cookies()
+	var i int
+	var c *http.Cookie
+
+	for i, c = range cookieSlice {
+		if c.Name == name {
+			cd, err := getCookieDetail(cookieSlice[i].Value)
+			if err != http.ErrNoCookie {
+				return cd, nil
+			}
+			break
+		}
+	}
+
+	cd, _ := getCookieDetail(createCookie(false).Value)
+	http.SetCookie(w, &cd.Cookie)
+	return cd, http.ErrNoCookie
 }
 
 // Session Handling --------------------
@@ -117,10 +138,10 @@ func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	invalidAccess := false
-	if c, err := r.Cookie("user"); err == http.ErrNoCookie {
+	cd, err := checkCookie("user", &w, r)
+	if err == http.ErrNoCookie {
 		invalidAccess = true
 	} else {
-		cd := getCookieDetail(c.Value)
 		if !cd.IsAdmin {
 			for _, p := range cd.APaths {
 				if p == fName[2:] { //todo check that `fName[2:]` is correct
@@ -187,18 +208,14 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		//defer in.Close()
 		//fmt.Fprintf(w, "%v", handler.Header)
 		//out, _ := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
-		fName := string(getTimeHash()) + ".png" //todo check for proper extension
+		fName := hex.EncodeToString(getTimeHash()) + ".png" //todo check for proper extension
 		out, _ := os.Create("./" + fName)
 		//defer out.Close()
 		io.Copy(out, in)
 		in.Close()
 		out.Close()
-		c, err := r.Cookie("user")
-		if err == http.ErrNoCookie {
-			*c = createCookie(false)
-			http.SetCookie(w, c)
-		}
-		appendPathToCookie(c.Value, fName)
+		cd, _ := checkCookie("user", &w, r)
+		appendPathToCookie(cd.Cookie.Value, fName)
 		imagePreview(w, r, fName)
 	}
 }
@@ -209,18 +226,17 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 		defer fReader.Close()
 		http.ServeContent(w, r, "getImage.html", time.Time{}, fReader)
 	} else {
-		u := r.URL.Query()
-		path := u.Get("path")
+		path := r.FormValue("path")
 
 		if strings.HasSuffix(path, ".png") || strings.HasSuffix(path, ".jpg") {
 			extension := path[strings.LastIndex(path, "."):]
-			fName := string(getTimeHash()) + extension
+			fName := hex.EncodeToString(getTimeHash()) + extension
 			fileCreated := false
 			if strings.HasPrefix(path, "127.0.0.1") {
 				path = "./images" + path[9:]
 				if _, err := os.Stat(path); err == nil {
 					in, _ := os.Open(path)
-					out, _ := os.Create("." + fName)
+					out, _ := os.Create("./image_cache/" + fName)
 					defer in.Close()
 					defer out.Close()
 					io.Copy(out, in)
@@ -235,13 +251,8 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 				fileCreated = true
 			}
 			if fileCreated {
-				c, err := r.Cookie("user")
-				if err == http.ErrNoCookie {
-					*c = createCookie(false)
-					http.SetCookie(w, c)
-				}
-				appendPathToCookie(c.Value, fName)
-
+				cd, _ := checkCookie("user", &w, r)
+				appendPathToCookie(cd.Cookie.Value, fName)
 				imagePreview(w, r, fName)
 			} else { // file does not exist
 				imagePreview(w, r, "0")
@@ -270,10 +281,7 @@ func httpPathHandler(w http.ResponseWriter, r *http.Request) {
 	if _, err := os.Stat(fName); err == nil {
 		fReader, _ := os.Open(fName)
 		defer fReader.Close()
-		if _, err := r.Cookie("user"); err == http.ErrNoCookie {
-			c := createCookie(false)
-			http.SetCookie(w, &c)
-		}
+		checkCookie("user", &w, r)
 		http.ServeContent(w, r, fName, time.Time{}, fReader)
 	} else {
 		show404(w, r)
@@ -290,12 +298,13 @@ func server() {
 		Password: "",
 		DB:       0,
 	})
+	defer rClient.Close()
 	// creating admin session
 	setCookieDetail(cookieDetail{Cookie: http.Cookie{
 		Name:     "user",
 		Value:    "0",
 		Expires:  time.Now().Add(100 * time.Hour),
-		Secure:   true,
+		Secure:   false, //todo add secure back when adding https
 		HttpOnly: true,
 	},
 		IsAdmin: true,
@@ -311,6 +320,6 @@ func server() {
 	}
 }
 
-func Main() {
+func main() {
 	server()
 }
