@@ -42,6 +42,17 @@ func show404(w http.ResponseWriter, r *http.Request) {
 	w.Write(fBytes)
 }
 
+func serveFile(fName string, w http.ResponseWriter, r *http.Request) error {
+	if _, err := os.Stat(fName); err == nil {
+		fReader, _ := os.Open(fName)
+		defer fReader.Close()
+		http.ServeContent(w, r, fName, time.Time{}, fReader)
+		return nil
+	} else {
+		return err
+	}
+}
+
 // Supporting Functions ----------------
 // -----------------------------------------------
 // Session Handling --------------------
@@ -61,7 +72,7 @@ func setCookieDetail(cd cookieDetail) {
 
 func getCookieDetail(cName string) (cookieDetail, error) {
 	j, err := rClient.Get(cName).Result()
-	if err == nil {
+	if err != nil {
 		return cookieDetail{}, http.ErrNoCookie
 	}
 	var newCD cookieDetail
@@ -108,7 +119,7 @@ func checkCookie(name string, w *http.ResponseWriter, r *http.Request) (cookieDe
 	}
 
 	cd, _ := getCookieDetail(createCookie(false).Value)
-	http.SetCookie(w, &cd.Cookie)
+	http.SetCookie(*w, &cd.Cookie)
 	return cd, http.ErrNoCookie
 }
 
@@ -117,6 +128,7 @@ func checkCookie(name string, w *http.ResponseWriter, r *http.Request) (cookieDe
 // Image Handling ----------------------
 
 type imagePreviewData struct {
+	// used within HTML template
 	Success bool
 	IsAdmin bool
 	FileUID string
@@ -130,36 +142,41 @@ func imageCacheClearer(fName string) {
 
 func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
 	pathArr := strings.Split(r.URL.Path, "/")[1:]
-	fName := "./"
+	fName := "./image_cache/"
 	if len(pathArr) < 3 {
 		fName = fName + pathArr[1]
-	} else {
+	} else if len(pathArr) == 3 {
 		fName = fName + pathArr[2]
-	}
-
-	invalidAccess := false
-	cd, err := checkCookie("user", &w, r)
-	if err == http.ErrNoCookie {
-		invalidAccess = true
-	} else {
-		if !cd.IsAdmin {
-			for _, p := range cd.APaths {
-				if p == fName[2:] { //todo check that `fName[2:]` is correct
-					invalidAccess = true
-				}
-			}
-		}
-	}
-
-	if _, err := os.Stat(fName); err == nil { // if file exists
-		fReader, _ := os.Open(fName)
-		defer fReader.Close()
-		http.ServeContent(w, r, fName, time.Time{}, fReader)
-		if len(pathArr) < 3 || pathArr[1] == "1" {
+		if pathArr[1] == "1" {
 			go imageCacheClearer(fName)
 		}
+		return
 	}
-	if invalidAccess {
+
+	invalidAccess := true
+	cd, err := checkCookie("user", &w, r)
+	if err != http.ErrNoCookie {
+		if !cd.IsAdmin {
+			iter := 0
+			p := ""
+			for iter, p = range cd.APaths {
+				if p == fName[2:] {
+					invalidAccess = false
+					break
+				}
+			}
+			if !invalidAccess {
+				cd.APaths[iter] = cd.APaths[len(cd.APaths)-1]
+				cd.APaths[len(cd.APaths)-1] = ""
+				cd.APaths = cd.APaths[:len(cd.APaths)-1]
+				setCookieDetail(cd)
+			}
+		} else {
+			invalidAccess = false
+		}
+	}
+
+	if err := serveFile(fName, w, r); err != nil {
 		show404(w, r)
 	}
 }
@@ -198,7 +215,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 			imagePreview(w, r, "2")
 			return
 		}
-		//todo handle file name
+		//todo+ remove file name
 		//todo handle no file uploaded
 		in, _, err := r.FormFile("fileUpload")
 		if err != nil {
@@ -209,13 +226,13 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		//fmt.Fprintf(w, "%v", handler.Header)
 		//out, _ := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 		fName := hex.EncodeToString(getTimeHash()) + ".png" //todo check for proper extension
-		out, _ := os.Create("./" + fName)
+		out, _ := os.Create("./image_cache/" + fName)
 		//defer out.Close()
 		io.Copy(out, in)
 		in.Close()
 		out.Close()
 		cd, _ := checkCookie("user", &w, r)
-		appendPathToCookie(cd.Cookie.Value, fName)
+		appendPathToCookie(cd.Cookie.Value, "image_cache/"+fName)
 		imagePreview(w, r, fName)
 	}
 }
@@ -243,7 +260,7 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 					fileCreated = true
 				}
 			} else {
-				out, _ := os.Create("." + fName)
+				out, _ := os.Create("./image_cache/" + fName)
 				defer out.Close()
 				in, _ := http.Get(path)
 				defer in.Body.Close()
@@ -252,7 +269,7 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			if fileCreated {
 				cd, _ := checkCookie("user", &w, r)
-				appendPathToCookie(cd.Cookie.Value, fName)
+				appendPathToCookie(cd.Cookie.Value, "image_cache/"+fName)
 				imagePreview(w, r, fName)
 			} else { // file does not exist
 				imagePreview(w, r, "0")
@@ -264,6 +281,26 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Image Handling ----------------------
+// -----------------------------------------------
+// Admin Page Handler ------------------
+
+func reviewImages(w http.ResponseWriter, r *http.Request) {
+	cd, err := checkCookie("user", &w, r)
+	if err != http.ErrNoCookie && cd.IsAdmin {
+		if r.Method == "GET" {
+			if err := serveFile("./reviewImages.html", w, r); err == nil {
+				return
+			}
+		} else {
+			if err := serveFile("../reviewFlag.txt", w, r); err == nil {
+				return
+			}
+		}
+	}
+	show404(w, r)
+}
+
+// Admin Page Handler ------------------
 // -----------------------------------------------
 // Generic Functions/Handlers ----------
 
@@ -278,12 +315,8 @@ func httpPathHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fName = "." + fName
 
-	if _, err := os.Stat(fName); err == nil {
-		fReader, _ := os.Open(fName)
-		defer fReader.Close()
-		checkCookie("user", &w, r)
-		http.ServeContent(w, r, fName, time.Time{}, fReader)
-	} else {
+	checkCookie("user", &w, r)
+	if err := serveFile(fName, w, r); err != nil {
 		show404(w, r)
 	}
 }
@@ -302,7 +335,7 @@ func server() {
 	// creating admin session
 	setCookieDetail(cookieDetail{Cookie: http.Cookie{
 		Name:     "user",
-		Value:    "0",
+		Value:    "0147532698",
 		Expires:  time.Now().Add(100 * time.Hour),
 		Secure:   false, //todo add secure back when adding https
 		HttpOnly: true,
@@ -315,6 +348,7 @@ func server() {
 	http.HandleFunc("/getImage", getImageHandler)
 	http.HandleFunc("/image_cache/", imageCacheHandler)
 	http.HandleFunc("/imagePreview", show404)
+	http.HandleFunc("/reviewImages", reviewImages)
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		panic(err)
 	}

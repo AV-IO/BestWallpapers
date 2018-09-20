@@ -21,7 +21,7 @@
 						<div class="inner">
 
 							<!-- Logo -->
-								<a href="index.html" class="logo">
+                            <a href="/" class="logo">
 									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Best Wallpapers</span>
 								</a>
 
@@ -42,6 +42,7 @@
                         <li><a href="/">Browse</a></li>
                         <li><a href="/upload">Upload a new image</a></li>
                         <li><a href="/getImage">Suggest a new image</a></li>
+                        <li hidden="hidden"><a href="reviewImages"></a></li>
                     </ul>
                 </nav>
 
@@ -54,8 +55,9 @@
 								<!-- set static image size -->
 								<p>Due to an increased rate of submitting images, we have a staff member review all images before they will be seen on our main page. Thank you for your patience.</p>
 								<ul class="actions">
-									<li><a class="button" href="/">Submit Image</a></li>
-									<li><a class="button" href="/">Cancel</a></li>
+                                    <li><a class="button" href="/image_cache/0/{{.FileUID}}{{.FileExt}}">Submit
+                                        Image</a></li>
+                                    <li><a class="button" href="/image_cache/1/{{.FileUID}}{{.FileExt}}">Cancel</a></li>
 								</ul>
 							{{else}}
 								<p>{{.FileUID}}</p>

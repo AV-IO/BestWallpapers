@@ -1,7 +1,7 @@
 ./bestwallpapers/images/
 {complete with list of wallpapers}
 ./admin.txt
-./cookie0.txt
+./admincookie0147532698.txt
 ./flag{AlwaysCheckRobots.txt}.txt
 ./secret.txt
 ./66-6C-61-67.png
