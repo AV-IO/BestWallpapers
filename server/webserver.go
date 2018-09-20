@@ -205,6 +205,7 @@ func imagePreview(w http.ResponseWriter, r *http.Request, imgCacheName string) {
 	}
 }
 
+/*
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		fReader, _ := os.Open("./upload.html")
@@ -236,6 +237,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		imagePreview(w, r, fName)
 	}
 }
+*/
 
 func getImageHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -344,7 +346,7 @@ func server() {
 	})
 
 	http.HandleFunc("/", httpPathHandler)
-	http.HandleFunc("/upload", uploadHandler)
+	http.HandleFunc("/upload", show404)
 	http.HandleFunc("/getImage", getImageHandler)
 	http.HandleFunc("/image_cache/", imageCacheHandler)
 	http.HandleFunc("/imagePreview", show404)

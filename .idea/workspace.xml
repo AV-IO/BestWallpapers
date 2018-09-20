@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4771c170-fbb3-4e75-b19f-841587a727e6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/content/reviewFlag.txt" afterDir="false" />
+    <list default="true" id="4771c170-fbb3-4e75-b19f-841587a727e6" name="Default Changelist" comment="removed upload">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/bestwallpapers/elements.html" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/elements.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/bestwallpapers/files.txt" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/files.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/bestwallpapers/generic.html" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/reviewImages.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/bestwallpapers/elements.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/content/bestwallpapers/getImage.html" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/getImage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/content/bestwallpapers/imagePreview.html" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/imagePreview.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/content/bestwallpapers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/bestwallpapers/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/bestwallpapers/reviewImages.html" beforeDir="false" afterPath="$PROJECT_DIR$/content/bestwallpapers/reviewImages.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/webserver.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/webserver.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -92,18 +89,18 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="5106" />
-          <entry key="html" value="1763" />
+          <entry key="go" value="5123" />
+          <entry key="html" value="1767" />
           <entry key="iedis" value="12" />
-          <entry key="txt" value="324" />
+          <entry key="txt" value="368" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="5106" />
-          <entry key="HTML" value="1763" />
+          <entry key="Go" value="5123" />
+          <entry key="HTML" value="1767" />
           <entry key="Iedis File" value="12" />
-          <entry key="PLAIN_TEXT" value="324" />
+          <entry key="PLAIN_TEXT" value="368" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -174,11 +171,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/webserver.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="134" column="1" lean-forward="true" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
+            <state relative-caret-position="280">
+              <caret line="183" column="41" selection-start-line="183" selection-start-column="41" selection-end-line="183" selection-end-column="41" />
               <folding>
                 <element signature="n#!!block;n#getTimeHash#0" />
-                <element signature="n#!!block;n#show404#0" />
                 <element signature="n#!!block;n#serveFile#0" />
                 <element signature="e#1051#1114#0" />
                 <element signature="n#!!block;n#setCookieDetail#0" />
@@ -189,8 +185,8 @@
                 <element signature="e#2779#2849#0" />
                 <element signature="n#!!block;n#imageCacheClearer#0" />
                 <element signature="n#!!block;n#imageCacheHandler#0" />
-                <element signature="n#!!block;n#imagePreview#0" />
-                <element signature="n#!!block;n#getImageHandler#0" />
+                <element signature="e#4984#5947#0" />
+                <element signature="n#!!block;n#reviewImages#0" />
                 <element signature="n#!!block;n#httpPathHandler#0" />
               </folding>
             </state>
@@ -200,8 +196,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/content/bestwallpapers/getImage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="37" column="14" lean-forward="true" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
+            <state relative-caret-position="782">
+              <caret line="65" column="22" lean-forward="true" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -209,8 +205,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/bestwallpapers/reviewImages.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="275">
+              <caret line="72" column="74" selection-start-line="72" selection-start-column="74" selection-end-line="72" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -227,8 +223,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/bestwallpapers/imagePreview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="912">
-              <caret line="57" column="75" selection-start-line="57" selection-start-column="75" selection-end-line="57" selection-end-column="75" />
+            <state relative-caret-position="275">
+              <caret line="42" column="38" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -236,8 +232,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/bestwallpapers/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3168">
-              <caret line="198" column="29" lean-forward="true" selection-start-line="192" selection-start-column="20" selection-end-line="198" selection-end-column="29" />
+            <state relative-caret-position="275">
+              <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -297,13 +293,13 @@
         <option value="$PROJECT_DIR$/testing/webserver_test.go" />
         <option value="$PROJECT_DIR$/content/bestwallpapers/elements.html" />
         <option value="$PROJECT_DIR$/content/bestwallpapers/files.txt" />
-        <option value="$PROJECT_DIR$/server/webserver.go" />
-        <option value="$PROJECT_DIR$/content/bestwallpapers/index.html" />
-        <option value="$PROJECT_DIR$/content/bestwallpapers/imagePreview.html" />
         <option value="$PROJECT_DIR$/content/reviewFlag.txt" />
-        <option value="$PROJECT_DIR$/content/bestwallpapers/reviewImages.html" />
         <option value="$PROJECT_DIR$/content/bestwallpapers/upload.html" />
         <option value="$PROJECT_DIR$/content/bestwallpapers/getImage.html" />
+        <option value="$PROJECT_DIR$/content/bestwallpapers/reviewImages.html" />
+        <option value="$PROJECT_DIR$/content/bestwallpapers/imagePreview.html" />
+        <option value="$PROJECT_DIR$/content/bestwallpapers/index.html" />
+        <option value="$PROJECT_DIR$/server/webserver.go" />
       </list>
     </option>
   </component>
@@ -314,9 +310,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="854" />
+    <option name="x" value="1720" />
     <option name="y" value="23" />
-    <option name="width" value="1706" />
+    <option name="width" value="1720" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
@@ -341,20 +337,6 @@
               <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bestwallpapers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
-              <item name="image_cache" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bestwallpapers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="bestwallpapers" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bestwallpapers" type="b2602c69:ProjectViewProjectNode" />
@@ -455,15 +437,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="854" y="23" width="1706" height="1417" extended-state="0" />
+    <frame x="1720" y="23" width="1720" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5208866" visible="true" weight="0.16165866" />
-      <window_info id="Structure" order="1" sideWeight="0.47911337" side_tool="true" visible="true" weight="0.16165866" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5215094" visible="true" weight="0.1603099" />
+      <window_info id="Structure" order="1" sideWeight="0.47849056" side_tool="true" visible="true" weight="0.1603099" />
+      <window_info anchor="bottom" id="Messages" weight="0.32981133" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32981133" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.15018868" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49844512" visible="true" weight="0.114716984" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49844512" weight="0.114716984" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="6" show_stripe_button="false" />
@@ -476,8 +459,8 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" sideWeight="0.49886793" weight="0.329559" />
       <window_info anchor="right" id="Redis Servers" order="4" sideWeight="0.19779287" visible="true" weight="0.18028846" />
-      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.50042623" side_tool="true" visible="true" weight="0.20072116" />
-      <window_info anchor="right" id="TODO" order="6" sideWeight="0.49957374" visible="true" weight="0.20072116" />
+      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.50037736" side_tool="true" visible="true" weight="0.19904648" />
+      <window_info anchor="right" id="TODO" order="6" sideWeight="0.49962264" visible="true" weight="0.19904648" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -518,7 +501,9 @@
     <MESSAGE value="starting on editing html files, additions to webserver." />
     <MESSAGE value="more additions to webserver" />
     <MESSAGE value="Added checkCookie function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added checkCookie function" />
+    <MESSAGE value="Added Image Review page" />
+    <MESSAGE value="removed upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed upload" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -696,34 +681,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3168">
-          <caret line="198" column="29" lean-forward="true" selection-start-line="192" selection-start-column="20" selection-end-line="198" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/reviewImages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/imagePreview.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="57" column="75" selection-start-line="57" selection-start-column="75" selection-end-line="57" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/webserver.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="134" column="1" lean-forward="true" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
+        <state relative-caret-position="280">
+          <caret line="183" column="41" selection-start-line="183" selection-start-column="41" selection-end-line="183" selection-end-column="41" />
           <folding>
             <element signature="n#!!block;n#getTimeHash#0" />
-            <element signature="n#!!block;n#show404#0" />
             <element signature="n#!!block;n#serveFile#0" />
             <element signature="e#1051#1114#0" />
             <element signature="n#!!block;n#setCookieDetail#0" />
@@ -734,17 +697,38 @@
             <element signature="e#2779#2849#0" />
             <element signature="n#!!block;n#imageCacheClearer#0" />
             <element signature="n#!!block;n#imageCacheHandler#0" />
-            <element signature="n#!!block;n#imagePreview#0" />
-            <element signature="n#!!block;n#getImageHandler#0" />
+            <element signature="e#4984#5947#0" />
+            <element signature="n#!!block;n#reviewImages#0" />
             <element signature="n#!!block;n#httpPathHandler#0" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/reviewImages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="72" column="74" selection-start-line="72" selection-start-column="74" selection-end-line="72" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/bestwallpapers/imagePreview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="42" column="38" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/content/bestwallpapers/getImage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="37" column="14" lean-forward="true" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
+        <state relative-caret-position="782">
+          <caret line="65" column="22" lean-forward="true" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
         </state>
       </provider>
     </entry>
