@@ -9,8 +9,8 @@
 		<title>Image Preview</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
@@ -22,7 +22,7 @@
 
 							<!-- Logo -->
                             <a href="/" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Best Wallpapers</span>
+									<span class="symbol"><img src="/images/logo.svg" alt="" /></span><span class="title">Best Wallpapers</span>
 								</a>
 
 							<!-- Nav -->
@@ -41,7 +41,8 @@
                     <ul>
                         <li><a href="/">Browse</a></li>
                         <li><a href="/getImage">Suggest a new image</a></li>
-                        <li hidden="hidden"><a href="reviewImages"></a></li>
+                        <!-- Admin page -->
+                        <li hidden="hidden"><a href="/reviewImages"></a></li>
                     </ul>
                 </nav>
 
@@ -50,14 +51,18 @@
 						<div class="inner">
 							<h1>Image Preview</h1>
 							{{if .Success}}
-								<span class="image main"><img src="/image_cache/{{.FileUID}}{{.FileExt}}"></span>
 								<!-- set static image size -->
-								<p>Due to an increased rate of submitting images, we have a staff member review all images before they will be seen on our main page. Thank you for your patience.</p>
-								<ul class="actions">
-                                    <li><a class="button" href="/image_cache/0/{{.FileUID}}{{.FileExt}}">Submit
-                                        Image</a></li>
-                                    <li><a class="button" href="/image_cache/1/{{.FileUID}}{{.FileExt}}">Cancel</a></li>
-								</ul>
+								{{if .Submission}}
+                                    <span class="image main"><img src="/image_cache/{{.FileUID}}{{.FileExt}}"></span>
+                                    <p>Due to an increased rate of submitting images, we have a staff member review all images before they will be seen on our main page. Thank you for your patience.</p>
+                                    <ul class="actions">
+                                        <li><a class="button" href="/image_cache/0/{{.FileUID}}{{.FileExt}}">Submit
+                                            Image</a></li>
+                                        <li><a class="button" href="/image_cache/1/{{.FileUID}}{{.FileExt}}">Cancel</a></li>
+                                    </ul>
+								{{else}}
+                                    <span class="image main"><img src="{{.FileUID}}{{.FileExt}}"></span>
+								{{end}}
 							{{else}}
 								<p>{{.FileUID}}</p>
 							{{end}}
@@ -76,11 +81,11 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/browser.min.js"></script>
+			<script src="/assets/js/breakpoints.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+			<script src="/assets/js/main.js"></script>
 
 	</body>
 </html>

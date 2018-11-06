@@ -15,6 +15,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"regexp"
 )
 
 // -----------------------------------------------
@@ -129,10 +130,11 @@ func checkCookie(name string, w *http.ResponseWriter, r *http.Request) (cookieDe
 
 type imagePreviewData struct {
 	// used within HTML template
-	Success bool
-	IsAdmin bool
-	FileUID string
-	FileExt string
+	Submission bool
+	Success    bool
+	IsAdmin    bool
+	FileUID    string
+	FileExt    string
 }
 
 func imageCacheClearer(fName string) {
@@ -143,6 +145,8 @@ func imageCacheClearer(fName string) {
 func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
 	pathArr := strings.Split(r.URL.Path, "/")[1:]
 	fName := "./image_cache/"
+	cd, err := checkCookie("user", &w, r)
+
 	if len(pathArr) < 3 {
 		fName = fName + pathArr[1]
 	} else if len(pathArr) == 3 {
@@ -150,11 +154,11 @@ func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
 		if pathArr[1] == "1" {
 			go imageCacheClearer(fName)
 		}
+		http.Redirect(w, r, "/", http.StatusMovedPermanently)
 		return
 	}
 
 	invalidAccess := true
-	cd, err := checkCookie("user", &w, r)
 	if err != http.ErrNoCookie {
 		if !cd.IsAdmin {
 			iter := 0
@@ -181,22 +185,24 @@ func imageCacheHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func imagePreview(w http.ResponseWriter, r *http.Request, imgCacheName string) {
-	data := imagePreviewData{false, false, "", ""}
+func imagePreview(w http.ResponseWriter, r *http.Request, imgCacheName string, submission bool) {
+	data := imagePreviewData{submission, false, false, "", ""}
+
 	if imgCacheName == "0" { // insert does not exist
 		data.FileUID = "file does not exist"
 	} else if imgCacheName == "1" { // bad insert extension
 		data.FileUID = "file has wrong extension"
 	} else if imgCacheName == "2" { // too large of file
-		data.FileUID = "file size is too large"
+		data.FileUID = "we already have that image"
+	} else if imgCacheName == "3" { // bad insert extension
+		data.FileUID = "please specify a valid URL"
 	} else { // image successfully found
 		data.Success = true
 		data.FileUID = imgCacheName[:strings.LastIndex(imgCacheName, ".")]
 		data.FileExt = imgCacheName[strings.LastIndex(imgCacheName, "."):]
 	}
 
-	//t := template.Must(template.ParseFiles("./imagePreview.html"))
-	t, _ := template.ParseFiles("./imagePreview.html") //todo test against template.Must()
+	t, _ := template.ParseFiles("./imagePreview.html")
 
 	w.WriteHeader(http.StatusOK)
 	if err := t.Execute(w, data); err != nil {
@@ -205,40 +211,6 @@ func imagePreview(w http.ResponseWriter, r *http.Request, imgCacheName string) {
 	}
 }
 
-/*
-func uploadHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		fReader, _ := os.Open("./upload.html")
-		defer fReader.Close()
-		http.ServeContent(w, r, "./upload.html", time.Time{}, fReader)
-	} else {
-		if err := r.ParseMultipartForm(32 << 20); err != nil {
-			imagePreview(w, r, "2")
-			return
-		}
-		//todo+ remove file name
-		//todo handle no file uploaded
-		in, _, err := r.FormFile("fileUpload")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		//defer in.Close()
-		//fmt.Fprintf(w, "%v", handler.Header)
-		//out, _ := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
-		fName := hex.EncodeToString(getTimeHash()) + ".png" //todo check for proper extension
-		out, _ := os.Create("./image_cache/" + fName)
-		//defer out.Close()
-		io.Copy(out, in)
-		in.Close()
-		out.Close()
-		cd, _ := checkCookie("user", &w, r)
-		appendPathToCookie(cd.Cookie.Value, "image_cache/"+fName)
-		imagePreview(w, r, fName)
-	}
-}
-*/
-
 func getImageHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		fReader, _ := os.Open("./getImage.html")
@@ -246,38 +218,47 @@ func getImageHandler(w http.ResponseWriter, r *http.Request) {
 		http.ServeContent(w, r, "getImage.html", time.Time{}, fReader)
 	} else {
 		path := r.FormValue("path")
-
 		if strings.HasSuffix(path, ".png") || strings.HasSuffix(path, ".jpg") {
+			if strings.HasPrefix(path, "http://wallpapers.mysterious-hashes.net") {
+				imagePreview(w, r, "2", true)
+				return
+			}
 			extension := path[strings.LastIndex(path, "."):]
-			fName := hex.EncodeToString(getTimeHash()) + extension
-			fileCreated := false
-			if strings.HasPrefix(path, "127.0.0.1") {
-				path = "./images" + path[9:]
-				if _, err := os.Stat(path); err == nil {
-					in, _ := os.Open(path)
+			s := path[:strings.LastIndex(path, extension)]
+			m, _ := regexp.MatchString(`http(s)?:\/\/[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#\[\]@!\$&'\(\)\*\+,;=.]+`, s)
+			if m {
+				fName := hex.EncodeToString(getTimeHash()) + extension
+				fileCreated := false
+				if strings.HasPrefix(path, "http://127.0.0.1") {
+					path = "./images" + path[16:]
+					if _, err := os.Stat(path); err == nil {
+						in, _ := os.Open(path)
+						out, _ := os.Create("./image_cache/" + fName)
+						defer in.Close()
+						defer out.Close()
+						io.Copy(out, in)
+						fileCreated = true
+					}
+				} else {
 					out, _ := os.Create("./image_cache/" + fName)
-					defer in.Close()
 					defer out.Close()
-					io.Copy(out, in)
+					in, _ := http.Get(path)
+					defer in.Body.Close()
+					io.Copy(out, in.Body)
 					fileCreated = true
 				}
+				if fileCreated {
+					cd, _ := checkCookie("user", &w, r)
+					appendPathToCookie(cd.Cookie.Value, "image_cache/"+fName)
+					imagePreview(w, r, fName, true)
+				} else { // file does not exist
+					imagePreview(w, r, "0", true)
+				}
 			} else {
-				out, _ := os.Create("./image_cache/" + fName)
-				defer out.Close()
-				in, _ := http.Get(path)
-				defer in.Body.Close()
-				io.Copy(out, in.Body)
-				fileCreated = true
-			}
-			if fileCreated {
-				cd, _ := checkCookie("user", &w, r)
-				appendPathToCookie(cd.Cookie.Value, "image_cache/"+fName)
-				imagePreview(w, r, fName)
-			} else { // file does not exist
-				imagePreview(w, r, "0")
+				imagePreview(w, r, "3", true)
 			}
 		} else { // bad file extension
-			imagePreview(w, r, "1")
+			imagePreview(w, r, "1", true)
 		}
 	}
 }
@@ -323,13 +304,20 @@ func httpPathHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func imageViewer(w http.ResponseWriter, r *http.Request) {
+	fName := strings.Replace(r.URL.Path, "..", "", -1) //todo: check if needed
+	fName = "/images" + fName[10:]
+	checkCookie("user", &w, r)
+	imagePreview(w, r, fName, false)
+}
+
 // Generic Functions/Handlers ----------
 // -----------------------------------------------
 
 func server() {
 	// creating redis client
 	rClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     "127.0.0.1:6379",
 		Password: "",
 		DB:       0,
 	})
@@ -337,7 +325,7 @@ func server() {
 	// creating admin session
 	setCookieDetail(cookieDetail{Cookie: http.Cookie{
 		Name:     "user",
-		Value:    "0147532698",
+		Value:    "52d53a75e67a3ece53dbb15ca4122616714906c7706ef9774f4d441daf2c7fb5ae4848b88487218304247850a3c2ef53dbbcd81330596543aec33340875fbb31",
 		Expires:  time.Now().Add(100 * time.Hour),
 		Secure:   false, //todo add secure back when adding https
 		HttpOnly: true,
@@ -346,7 +334,6 @@ func server() {
 	})
 
 	http.HandleFunc("/", httpPathHandler)
-	http.HandleFunc("/upload", show404)
 	http.HandleFunc("/getImage", getImageHandler)
 	http.HandleFunc("/image_cache/", imageCacheHandler)
 	http.HandleFunc("/imagePreview", show404)
